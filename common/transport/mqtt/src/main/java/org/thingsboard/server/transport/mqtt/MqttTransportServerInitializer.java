@@ -37,16 +37,21 @@ public class MqttTransportServerInitializer extends ChannelInitializer<SocketCha
     public void initChannel(SocketChannel ch) {
         ChannelPipeline pipeline = ch.pipeline();
         SslHandler sslHandler = null;
+        //判断SSL处理器处理类是否为空，如果不为空，将SSL处理器加入到ChannelPipeLine
         if (context.getSslHandlerProvider() != null) {
             sslHandler = context.getSslHandlerProvider().getSslHandler();
             pipeline.addLast(sslHandler);
         }
+        //添加负载内容的解编码器
         pipeline.addLast("decoder", new MqttDecoder(context.getMaxPayloadSize()));
         pipeline.addLast("encoder", MqttEncoder.INSTANCE);
 
         MqttTransportHandler handler = new MqttTransportHandler(context,sslHandler);
 
+        //添加Mqtt协议处理器
+        // 设置连入服务端的 Client 的 SocketChannel 的处理器
         pipeline.addLast(handler);
+        //异步操作完成时回调
         ch.closeFuture().addListener(handler);
     }
 

@@ -44,7 +44,7 @@ public class ThingsboardInstallService {
     @Value("${install.upgrade.from_version:1.2.3}")
     private String upgradeFromVersion;
 
-    @Value("${install.load_demo:false}")
+    @Value("${install.load_demo:true}")
     private Boolean loadDemo;
 
     @Autowired

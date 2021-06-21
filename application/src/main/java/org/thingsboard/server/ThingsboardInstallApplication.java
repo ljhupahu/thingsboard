@@ -38,10 +38,10 @@ public class ThingsboardInstallApplication {
 
     public static void main(String[] args) {
         try {
-            SpringApplication application = new SpringApplication(ThingsboardInstallApplication.class);
-            application.setAdditionalProfiles("install");
-            ConfigurableApplicationContext context = application.run(updateArguments(args));
-            context.getBean(ThingsboardInstallService.class).performInstall();
+//            SpringApplication application = new SpringApplication(ThingsboardInstallApplication.class);
+//            application.setAdditionalProfiles("install");
+//            ConfigurableApplicationContext context = application.run(updateArguments(args));
+//            context.getBean(ThingsboardInstallService.class).performInstall();
         } catch (Exception e) {
             log.error(e.getMessage());
             System.exit(1);

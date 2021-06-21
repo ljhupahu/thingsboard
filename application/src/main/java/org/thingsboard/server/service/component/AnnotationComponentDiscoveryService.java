@@ -49,6 +49,12 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
+/**
+ * AnnotationComponentDiscoveryService类的主要作用， 通过扫描 指定包下来的RuleNode,注解， 来得到各个node类。
+ * 1.1.1.1  通过ClassPathScanningCandidateComponentProvider扫描thingsboard.yml中的scan_packages: "${PLUGINS_SCAN_PACKAGES:org.thingsboard.server.extensions,org.thingsboard.rule.engine}"包下注解为RuleNode.class的类， 返回所有的beandefinition;
+ * 1.1.1.2.1 prepareNodeDefinition通过读取Rulenode注释相关的信息， 对NodeDefinition进行内容填充。
+ * 1.1.1.3  对ComponentDescriptor进行MAP存储
+ */
 @Service
 @Slf4j
 public class AnnotationComponentDiscoveryService implements ComponentDiscoveryService {

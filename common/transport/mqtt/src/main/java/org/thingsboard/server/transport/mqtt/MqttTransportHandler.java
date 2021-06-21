@@ -150,6 +150,7 @@ public class MqttTransportHandler extends ChannelInboundHandlerAdapter implement
             return;
         }
         deviceSessionCtx.setChannel(ctx);
+        //客户端请求与服务器的连接的报文
         if (CONNECT.equals(msg.fixedHeader().messageType())) {
             processConnect(ctx, (MqttConnectMessage) msg);
         } else if (deviceSessionCtx.isProvisionOnly()) {
@@ -161,6 +162,7 @@ public class MqttTransportHandler extends ChannelInboundHandlerAdapter implement
 
     private void processProvisionSessionMsg(ChannelHandlerContext ctx, MqttMessage msg) {
         switch (msg.fixedHeader().messageType()) {
+            //PUBLISH控制包从客户端发送到服务器或从服务器发送到客户端以传输消息
             case PUBLISH:
                 MqttPublishMessage mqttMsg = (MqttPublishMessage) msg;
                 String topicName = mqttMsg.variableHeader().topicName();
@@ -206,19 +208,41 @@ public class MqttTransportHandler extends ChannelInboundHandlerAdapter implement
             case PUBLISH:
                 processPublish(ctx, (MqttPublishMessage) msg);
                 break;
+            /**
+             * SUBSCRIBE数据包从客户端发送到服务器以创建一个或多个订阅。每个订阅
+             * 都注册客户对一个或多个主题的兴趣。服务器将PUBLISH数据包发送到客户端，
+             * 以便将发布的应用程序消息转发到与这些订阅匹配的主题。SUBSCRIBE数据包还
+             * 指定(对于每个订阅)服务器可以将应用程序消息发送到客户端的最大QoS。
+             */
             case SUBSCRIBE:
                 processSubscribe(ctx, (MqttSubscribeMessage) msg);
                 break;
+            /**
+             * 取消订阅--取消订阅主题
+             * 客户端向服务器发送UNSUBSCRIBE数据包，以取消订阅
+             */
             case UNSUBSCRIBE:
                 processUnsubscribe(ctx, (MqttUnsubscribeMessage) msg);
                 break;
+            /**
+             * PINGREQ -- PING请求
+             * PINGREQ数据包从客户端发送到服务器。它可以用于:
+             * 1. 在没有任何其他控制数据包从客户端发送到服务器的情况下，向服务器指示客户端处于活动状态。
+             * 2. 请求服务器响应以确认它处于活动状态。
+             * 3. 联系网络以指示网络连接处于活动状态。
+             *
+             * -- 此数据包用于Keep Alive处理, 进行心跳检测
+             */
             case PINGREQ:
+                //判断是否连接
                 if (checkConnected(ctx, msg)) {
+                    //服务器发送PINGRESP数据包以响应PINGREQ数据包。
                     ctx.writeAndFlush(new MqttMessage(new MqttFixedHeader(PINGRESP, false, AT_MOST_ONCE, false, 0)));
                     transportService.reportActivity(deviceSessionCtx.getSessionInfo());
                 }
                 break;
             case DISCONNECT:
+                //判断是否连接，如果网络连接，则断开连接
                 if (checkConnected(ctx, msg)) {
                     processDisconnect(ctx);
                 }
@@ -228,14 +252,16 @@ public class MqttTransportHandler extends ChannelInboundHandlerAdapter implement
         }
     }
 
+    //处理PUBLISH消息
     private void processPublish(ChannelHandlerContext ctx, MqttPublishMessage mqttMsg) {
         if (!checkConnected(ctx, mqttMsg)) {
             return;
         }
+        //获取PUBLISH消息有效负载中的主题名称，包标志符
         String topicName = mqttMsg.variableHeader().topicName();
         int msgId = mqttMsg.variableHeader().packetId();
         log.trace("[{}][{}] Processing publish msg [{}][{}]!", sessionId, deviceSessionCtx.getDeviceId(), topicName, msgId);
-
+        //如果主题是以网关主题为开头，则处理推送消息给网关
         if (topicName.startsWith(MqttTopics.BASE_GATEWAY_API_TOPIC)) {
             if (gatewaySessionHandler != null) {
                 handleGatewayPublishMsg(ctx, topicName, msgId, mqttMsg);
@@ -246,6 +272,13 @@ public class MqttTransportHandler extends ChannelInboundHandlerAdapter implement
         }
     }
 
+    /**
+     * 判断不同的topic
+     * @param ctx
+     * @param topicName
+     * @param msgId
+     * @param mqttMsg
+     */
     private void handleGatewayPublishMsg(ChannelHandlerContext ctx, String topicName, int msgId, MqttPublishMessage mqttMsg) {
         try {
             switch (topicName) {
