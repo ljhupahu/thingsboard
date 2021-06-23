@@ -30,6 +30,7 @@ public class TbRuleEngineSubmitStrategyFactory {
             case "BATCH":
                 return new BatchTbRuleEngineSubmitStrategy(name, configuration.getBatchSize());
             case "SEQUENTIAL_BY_ORIGINATOR":
+                //当前一条消息处理时， 随后的子消息也会开始被处理
                 return new SequentialByOriginatorIdTbRuleEngineSubmitStrategy(name);
             case "SEQUENTIAL_BY_TENANT":
                 return new SequentialByTenantIdTbRuleEngineSubmitStrategy(name);
