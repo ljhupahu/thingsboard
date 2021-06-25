@@ -20,6 +20,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -76,6 +77,7 @@ import java.util.stream.Collectors;
 @RestController
 @TbCoreComponent
 @RequestMapping("/api")
+@Api(tags = "规则链控制器")
 public class RuleChainController extends BaseController {
 
     public static final String RULE_CHAIN_ID = "ruleChainId";

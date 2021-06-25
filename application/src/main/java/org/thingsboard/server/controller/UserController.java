@@ -18,6 +18,7 @@ package org.thingsboard.server.controller;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import io.swagger.annotations.Api;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -59,6 +60,7 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @TbCoreComponent
 @RequestMapping("/api")
+@Api(tags = "用户控制器")
 public class UserController extends BaseController {
 
     public static final String USER_ID = "userId";

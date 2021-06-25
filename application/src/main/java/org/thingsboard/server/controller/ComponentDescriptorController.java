@@ -15,6 +15,7 @@
  */
 package org.thingsboard.server.controller;
 
+import io.swagger.annotations.Api;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,6 +35,7 @@ import java.util.Set;
 @RestController
 @TbCoreComponent
 @RequestMapping("/api")
+@Api(tags = "组件描述符控制器")
 public class ComponentDescriptorController extends BaseController {
 
     @PreAuthorize("hasAnyAuthority('SYS_ADMIN','TENANT_ADMIN')")

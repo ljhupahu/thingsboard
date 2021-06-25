@@ -16,6 +16,7 @@
 package org.thingsboard.server.controller;
 
 import com.google.common.util.concurrent.ListenableFuture;
+import io.swagger.annotations.Api;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -57,6 +58,7 @@ import static org.thingsboard.server.dao.asset.BaseAssetService.TB_SERVICE_QUEUE
 @RestController
 @TbCoreComponent
 @RequestMapping("/api")
+@Api(tags = "资产控制器")
 public class AssetController extends BaseController {
 
     public static final String ASSET_ID = "assetId";

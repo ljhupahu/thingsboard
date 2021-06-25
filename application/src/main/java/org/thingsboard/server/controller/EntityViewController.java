@@ -20,6 +20,7 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.common.util.concurrent.SettableFuture;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -73,6 +74,7 @@ import static org.thingsboard.server.controller.CustomerController.CUSTOMER_ID;
 @TbCoreComponent
 @RequestMapping("/api")
 @Slf4j
+@Api(tags = "实体视图控制器")
 public class EntityViewController extends BaseController {
 
     public static final String ENTITY_VIEW_ID = "entityViewId";

@@ -15,6 +15,7 @@
  */
 package org.thingsboard.server.controller;
 
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,6 +38,7 @@ import org.thingsboard.server.service.security.permission.Operation;
 @RestController
 @TbCoreComponent
 @RequestMapping("/api")
+@Api(tags = "事件控制器")
 public class EventController extends BaseController {
 
     @Autowired

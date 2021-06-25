@@ -18,6 +18,7 @@ package org.thingsboard.server.controller;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -62,6 +63,7 @@ import java.util.List;
 @TbCoreComponent
 @RequestMapping("/api")
 @Slf4j
+@Api(tags = "身份验证控制器")
 public class AuthController extends BaseController {
 
     @Autowired

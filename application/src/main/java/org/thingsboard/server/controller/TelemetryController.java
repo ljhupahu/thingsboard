@@ -26,6 +26,7 @@ import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -105,6 +106,7 @@ import java.util.stream.Collectors;
 @TbCoreComponent
 @RequestMapping(TbUrlConstants.TELEMETRY_URL_PREFIX)
 @Slf4j
+@Api(tags = "遥测控制器")
 public class TelemetryController extends BaseController {
 
     @Autowired

@@ -18,6 +18,7 @@ package org.thingsboard.server.controller;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import io.swagger.annotations.Api;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,6 +44,7 @@ import org.thingsboard.server.service.security.permission.Resource;
 @RestController
 @TbCoreComponent
 @RequestMapping("/api")
+@Api(tags = "客户控制器")
 public class CustomerController extends BaseController {
 
     public static final String CUSTOMER_ID = "customerId";

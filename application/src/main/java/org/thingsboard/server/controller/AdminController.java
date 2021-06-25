@@ -16,6 +16,7 @@
 package org.thingsboard.server.controller;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,6 +43,7 @@ import org.thingsboard.server.service.update.UpdateService;
 @RestController
 @TbCoreComponent
 @RequestMapping("/api/admin")
+@Api(tags = "管理控制器")
 public class AdminController extends BaseController {
 
     @Autowired
