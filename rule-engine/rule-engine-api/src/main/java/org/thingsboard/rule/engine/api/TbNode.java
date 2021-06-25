@@ -29,6 +29,11 @@ public interface TbNode {
 
     void onMsg(TbContext ctx, TbMsg msg) throws ExecutionException, InterruptedException, TbNodeException;
 
+    /**
+     * 当rule node被销毁时， 被调用。
+     * 如果user删除某个rule node时或系统停止时， 会被调用 。
+     *
+     */
     void destroy();
 
     default void onPartitionChangeMsg(TbContext ctx, PartitionChangeMsg msg) {}
