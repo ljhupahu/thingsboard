@@ -18,8 +18,17 @@
 -->
 <!DOCTYPE configuration>
 <configuration scan="true" scanPeriod="10 seconds">
-
+    <timestamp key="bySecond" datePattern="yyyyMMdd'T'HHmmss"/>
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{ISO8601} [%thread] %-5level %logger{100} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <!-- use the previously created timestamp to create a uniquely
+            named log file -->
+        <file>E:\log\thingsboard\log-${bySecond}.txt</file>
         <encoder>
             <pattern>%d{ISO8601} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
@@ -27,17 +36,18 @@
 
     <logger name="org.thingsboard.server" level="INFO" />
 
-<!--    <logger name="org.thingsboard.server.service.queue" level="TRACE" />-->
-<!--    <logger name="org.thingsboard.server.service.transport" level="TRACE" />-->
-<!--    <logger name="org.thingsboard.server.queue.memory.InMemoryStorage" level="DEBUG" />-->
-<!--    <logger name="org.thingsboard.server.service.ttl.AbstractCleanUpService" level="DEBUG" />-->
+    <logger name="org.thingsboard.server.service.queue" level="TRACE" />
+    <logger name="org.thingsboard.server.service.transport" level="TRACE" />
+    <logger name="org.thingsboard.server.queue.memory.InMemoryStorage" level="DEBUG" />
+    <logger name="org.thingsboard.server.service.ttl.AbstractCleanUpService" level="DEBUG" />
 
-<!--    <logger name="org.thingsboard.server.service.subscription" level="TRACE"/>-->
-<!--    <logger name="org.thingsboard.server.service.telemetry" level="TRACE"/>-->
+    <logger name="org.thingsboard.server.service.subscription" level="TRACE"/>
+    <logger name="org.thingsboard.server.service.telemetry" level="TRACE"/>
     <logger name="com.microsoft.azure.servicebus.primitives.CoreMessageReceiver" level="OFF" />
 
-    <root level="INFO">
+    <root level="DEBUG">
         <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILE"/>
     </root>
 
 

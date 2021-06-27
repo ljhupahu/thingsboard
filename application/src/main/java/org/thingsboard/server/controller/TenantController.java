@@ -16,6 +16,7 @@
 package org.thingsboard.server.controller;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -45,6 +46,7 @@ import org.thingsboard.server.service.security.permission.Resource;
 @TbCoreComponent
 @RequestMapping("/api")
 @Slf4j
+@Api(tags = "租户控制器")
 public class TenantController extends BaseController {
 
     @Autowired

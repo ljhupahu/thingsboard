@@ -15,6 +15,7 @@
  */
 package org.thingsboard.server.controller;
 
+import io.swagger.annotations.Api;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -50,6 +51,7 @@ import java.util.UUID;
 @RestController
 @TbCoreComponent
 @RequestMapping("/api")
+@Api(tags = "报警控制器")
 public class AlarmController extends BaseController {
 
     public static final String ALARM_ID = "alarmId";

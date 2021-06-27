@@ -113,6 +113,8 @@
         <protobuf-dynamic.version>1.0.2TB</protobuf-dynamic.version>
         <wire-schema.version>3.4.0</wire-schema.version>
         <twilio.version>7.54.2</twilio.version>
+        <knife4j-spring-boot-starter.version>1.9.6</knife4j-spring-boot-starter.version>
+
     </properties>
 
     <modules>
@@ -1454,6 +1456,11 @@
                         <artifactId>jjwt-impl</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-spring-boot-starter</artifactId>
+                <version>${knife4j-spring-boot-starter.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

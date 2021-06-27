@@ -15,6 +15,7 @@
  */
 package org.thingsboard.server.controller;
 
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,7 @@ import java.util.UUID;
 @TbCoreComponent
 @RequestMapping("/api")
 @Slf4j
+@Api(tags = "设备配置控制器")
 public class DeviceProfileController extends BaseController {
 
     private static final String DEVICE_PROFILE_ID = "deviceProfileId";

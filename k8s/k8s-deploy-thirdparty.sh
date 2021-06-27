@@ -14,17 +14,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
+#当执行出现异常时，及时退出
 set -e
 
 source .env
 
 kubectl apply -f common/tb-namespace.yml
 kubectl config set-context $(kubectl config current-context) --namespace=thingsboard
-
+#根据执行环境情况,执行相应文件夹中的部署脚本
 kubectl apply -f $DEPLOYMENT_TYPE/thirdparty.yml
 
-
+#如果是高可用部署方式,则需要对redis集群进行检测
 if [ "$DEPLOYMENT_TYPE" == "high-availability" ]; then
     echo -n "waiting for all redis pods to be ready";
     while [[ $(kubectl get pods tb-redis-5 -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}' 2>/dev/null) != "True" ]];

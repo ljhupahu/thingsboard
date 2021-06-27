@@ -18,6 +18,7 @@ package org.thingsboard.server.controller;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.util.concurrent.FutureCallback;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -64,6 +65,7 @@ import java.util.UUID;
 @TbCoreComponent
 @RequestMapping(TbUrlConstants.RPC_URL_PREFIX)
 @Slf4j
+@Api(tags = "RPC控制器")
 public class RpcController extends BaseController {
 
     protected final ObjectMapper jsonMapper = new ObjectMapper();

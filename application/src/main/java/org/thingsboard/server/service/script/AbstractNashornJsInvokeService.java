@@ -100,6 +100,7 @@ public abstract class AbstractNashornJsInvokeService extends AbstractJsInvokeSer
             sandbox.allowLoadFunctions(true);
             sandbox.setMaxPreparedStatements(30);
         } else {
+            //处理JS, 得到脚本引擎
             ScriptEngineManager factory = new ScriptEngineManager();
             engine = factory.getEngineByName("nashorn");
         }

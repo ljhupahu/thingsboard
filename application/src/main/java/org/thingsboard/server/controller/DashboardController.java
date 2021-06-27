@@ -17,6 +17,7 @@ package org.thingsboard.server.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -57,6 +58,7 @@ import java.util.Set;
 @RestController
 @TbCoreComponent
 @RequestMapping("/api")
+@Api(tags = "仪表盘控制器")
 public class DashboardController extends BaseController {
 
     public static final String DASHBOARD_ID = "dashboardId";

@@ -22,9 +22,12 @@ source .env
 kubectl apply -f common/tb-namespace.yml
 kubectl config set-context $(kubectl config current-context) --namespace=thingsboard
 kubectl apply -f common/tb-node-configmap.yml
+#不同对接方式的配置信息
 kubectl apply -f common/tb-mqtt-transport-configmap.yml
 kubectl apply -f common/tb-http-transport-configmap.yml
 kubectl apply -f common/tb-coap-transport-configmap.yml
+#启动 tb-js-executor、tb-mqtt-transport、tb-http-transport、tb-coap-transport、tb-web-ui
 kubectl apply -f common/thingsboard.yml
 kubectl apply -f $DEPLOYMENT_TYPE/tb-node-cache-configmap.yml
+#启动 tb-node
 kubectl apply -f common/tb-node.yml
