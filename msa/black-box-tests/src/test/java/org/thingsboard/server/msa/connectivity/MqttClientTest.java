@@ -1,12 +1,12 @@
 /**
  * Copyright © 2016-2021 The Thingsboard Authors
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,10 +27,9 @@ import io.netty.handler.codec.mqtt.MqttQoS;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.*;
-import org.junit.rules.TestRule;
-import org.junit.rules.TestWatcher;
-import org.junit.runner.Description;
+import org.jetbrains.annotations.NotNull;
+import org.junit.Assert;
+import org.junit.Test;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +37,7 @@ import org.thingsboard.mqtt.MqttClient;
 import org.thingsboard.mqtt.MqttClientConfig;
 import org.thingsboard.mqtt.MqttHandler;
 import org.thingsboard.server.common.data.Device;
+import org.thingsboard.server.common.data.id.DeviceId;
 import org.thingsboard.server.common.data.id.RuleChainId;
 import org.thingsboard.server.common.data.page.PageData;
 import org.thingsboard.server.common.data.rule.NodeConnectionInfo;
@@ -57,6 +57,40 @@ import java.util.concurrent.*;
 
 @Slf4j
 public class MqttClientTest extends AbstractContainerTest {
+
+    /**
+     * 单个间隔1秒循环发送数据
+     * @throws Exception
+     */
+    @Test
+    public void singleDevice() throws Exception {
+        restClient.login("tenant@thingsboard.org", "tenant");
+        DeviceCredentials deviceCredentials = getDeviceCredentials("ee27d5d0-bedd-11eb-9258-05149bb2e035");
+
+        MqttClient mqttClient = getMqttClient(deviceCredentials, null);
+        for (; ; ) {
+            mqttClient.publish("v1/devices/me/telemetry", Unpooled.wrappedBuffer(devicePayload().toString().getBytes())).get();
+            Thread.sleep(1000);
+        }
+    }
+
+    @NotNull
+    private DeviceCredentials getDeviceCredentials(String uuid) {
+        Device device = new Device();
+        device.setId(new DeviceId(toUUID(uuid)));
+
+        return restClient.getDeviceCredentialsByDeviceId(device.getId()).get();
+    }
+
+    protected JsonObject devicePayload() {
+        JsonObject values = new JsonObject();
+        values.addProperty("temperature", 20 + new Random().nextInt(20));
+        return values;
+    }
+
+    private UUID toUUID(String id) {
+        return UUID.fromString(id);
+    }
 
     @Test
     public void telemetryUpload() throws Exception {
