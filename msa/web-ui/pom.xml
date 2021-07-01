@@ -29,7 +29,7 @@
 
     <name>ThingsBoard Web UI Microservice</name>
     <url>https://thingsboard.io</url>
-    <description>Service for hosting ThingsBoard Web UI</description>
+    <description>Service for hosting ThingsBoard Web UI，该工程打出的镜像为tb-web-ui</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -40,6 +40,7 @@
         <pkg.name>tb-web-ui</pkg.name>
         <pkg.type>js</pkg.type>
         <pkg.disabled>false</pkg.disabled>
+<!--    该phase生成将会包含在项目包中的资源文件  -->
         <pkg.process-resources.phase>process-resources</pkg.process-resources.phase>
         <pkg.package.phase>package</pkg.package.phase>
         <pkg.linux.dist>${project.build.directory}/package/linux</pkg.linux.dist>
@@ -156,6 +157,7 @@
                     <execution>
                         <id>build-docker-image</id>
                         <phase>pre-integration-test</phase>
+<!--    在最外层的copy-docker-config中定义了将dockerfile复制到target文件夹下,上边引入了maven-resources-plugin插件，所以已经执行了复制操作-->
                         <goals>
                             <goal>build</goal>
                         </goals>
@@ -207,7 +209,7 @@
                                 <goals>
                                     <goal>yarn</goal>
                                 </goals>
-
+<!--        启动web服务        -->
                                 <configuration>
                                     <arguments>start</arguments>
                                 </configuration>

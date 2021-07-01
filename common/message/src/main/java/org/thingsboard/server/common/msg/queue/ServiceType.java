@@ -15,6 +15,13 @@
  */
 package org.thingsboard.server.common.msg.queue;
 
+/**
+ * 定义了四种服务类型
+ * thingboard核心逻辑
+ * 规则引擎
+ * 对接协议服务
+ * JS执行服务
+ */
 public enum ServiceType {
 
     TB_CORE, TB_RULE_ENGINE, TB_TRANSPORT, JS_EXECUTOR;

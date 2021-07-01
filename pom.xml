@@ -34,6 +34,7 @@
         <pkg.package.phase>none</pkg.package.phase>
         <pkg.user>thingsboard</pkg.user>
         <pkg.implementationTitle>${project.name}</pkg.implementationTitle>
+<!--      ${pkg.name}在下级pom中有定义  -->
         <pkg.unixLogFolder>/var/log/${pkg.name}</pkg.unixLogFolder>
         <pkg.installFolder>/usr/share/${pkg.name}</pkg.installFolder>
         <javax-annotation.version>1.3.2</javax-annotation.version>
@@ -160,6 +161,7 @@
                             <artifactId>maven-resources-plugin</artifactId>
                             <executions>
                                 <execution>
+<!--                                    拷贝配置文件到jar包中-->
                                     <id>copy-conf</id>
                                     <phase>${pkg.process-resources.phase}</phase>
                                     <goals>
@@ -171,6 +173,7 @@
                                             <resource>
                                                 <directory>src/main/resources</directory>
                                                 <excludes>
+<!--                                                    排除logback-->
                                                     <exclude>logback.xml</exclude>
                                                 </excludes>
                                                 <filtering>false</filtering>
@@ -293,11 +296,13 @@
                                         <outputDirectory>${project.build.directory}/bin/install</outputDirectory>
                                         <resources>
                                             <resource>
+<!--            pkg.type指的是package文件夹下的java或js,该变量在子pom中的 <properties>中一般会有定义,例如可以参考application/pom-->
                                                 <directory>${main.dir}/packaging/${pkg.type}/scripts/install</directory>
                                                 <includes>
                                                     <include>**/*.sh</include>
                                                     <include>**/*.xml</include>
                                                 </includes>
+<!--                                            使用<filtering>标签指定是否替换资源中的变量,ture为替换资源中的变量 -->
                                                 <filtering>true</filtering>
                                             </resource>
                                         </resources>
@@ -348,6 +353,7 @@
                                     </configuration>
                                 </execution>
                                 <execution>
+<!--                                将data文件复制到target的data目录中-->
                                     <id>copy-data</id>
                                     <phase>${pkg.process-resources.phase}</phase>
                                     <goals>
@@ -365,12 +371,14 @@
                                                     <include>**/*.cql</include>
                                                     <include>**/*.sql</include>
                                                 </includes>
+<!--                                                不替换变量-->
                                                 <filtering>false</filtering>
                                             </resource>
                                         </resources>
                                     </configuration>
                                 </execution>
                                 <execution>
+<!--                                    复制docker文件-->
                                     <id>copy-docker-config</id>
                                     <phase>${pkg.process-resources.phase}</phase>
                                     <goals>
@@ -393,6 +401,7 @@
                             <artifactId>maven-dependency-plugin</artifactId>
                             <executions>
                                 <execution>
+<!--                               生成windows可执行文件-->
                                     <id>copy-winsw-service</id>
                                     <phase>${pkg.package.phase}</phase>
                                     <goals>
@@ -454,6 +463,7 @@
                             </executions>
                         </plugin>
                         <plugin>
+<!--                            执行gradle的编译命令，对应了packaging/java(js)/build.gradle-->
                             <groupId>org.thingsboard</groupId>
                             <artifactId>gradle-maven-plugin</artifactId>
                             <configuration>
@@ -1464,7 +1474,7 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
+<!--将包发布到maven私服中-->
     <distributionManagement>
         <repository>
             <id>thingsboard-repo-deploy</id>

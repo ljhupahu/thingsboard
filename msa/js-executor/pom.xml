@@ -86,6 +86,7 @@
                     </execution>
                 </executions>
             </plugin>
+<!--        引入之这些插件后，会执行thingsboard/pom下 插件逻辑    -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -117,6 +118,7 @@
                             <repository>${docker.repo}/${docker.name}</repository>
                             <verbose>true</verbose>
                             <googleContainerRegistryEnabled>false</googleContainerRegistryEnabled>
+<!--            dockerfile文件位置，在上边的插件中已经拷贝到了target文件夹中-->
                             <contextDirectory>${project.build.directory}</contextDirectory>
                         </configuration>
                     </execution>

@@ -29,7 +29,7 @@
 
     <name>ThingsBoard Node Microservice</name>
     <url>https://thingsboard.io</url>
-    <description>ThingsBoard Node Microservice</description>
+    <description>ThingsBoard Node Microservice,该工程打出的docker镜像为tb-node微服务模块</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -84,6 +84,7 @@
                 <executions>
                     <execution>
                         <id>copy-docker-config</id>
+<!--          复制和处理资源到目标目录，为打包阶段最好准备，在compile阶段前-->
                         <phase>process-resources</phase>
                         <goals>
                             <goal>copy-resources</goal>
@@ -92,6 +93,7 @@
                             <outputDirectory>${project.build.directory}</outputDirectory>
                             <resources>
                                 <resource>
+<!--          复制该工程下的docker文件夹下的代码，并替换变量-->
                                     <directory>docker</directory>
                                     <filtering>true</filtering>
                                 </resource>
@@ -108,6 +110,7 @@
                         <id>build-docker-image</id>
                         <phase>pre-integration-test</phase>
                         <goals>
+<!--                        生成镜像-->
                             <goal>build</goal>
                         </goals>
                         <configuration>
@@ -122,6 +125,7 @@
                         <id>tag-docker-image</id>
                         <phase>pre-integration-test</phase>
                         <goals>
+<!--                            tag镜像-->
                             <goal>tag</goal>
                         </goals>
                         <configuration>

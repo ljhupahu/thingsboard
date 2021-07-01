@@ -4,11 +4,16 @@
 
 ThingsBoard is an open-source IoT platform for data collection, processing, visualization, and device management.
 
-<img src="./img/logo.png?raw=true" width="100" height="100">
-
 ## Documentation
 
 ThingsBoard documentation is hosted on [thingsboard.io](https://thingsboard.io/docs).
+
+## Develop Imfo
+
+项目结构  
+thingsboard/pom 在该pom中，进行了通用的配置，配置了maven的插件信息，子pom文件引入这些插件后，便拥有了那些特性
+msa:该工程是对各个模块进行打包，生成镜像文件的工程。其中，msa/tb是生成的单体镜像，js-executor、tb-node、web-ui、transport/coap、transport/http、transport/mqtt分别对应了相应的微服务镜像
+
 
 ## IoT use cases
 
@@ -40,3 +45,4 @@ Collect and Visualize your IoT data in minutes by following this [guide](https:/
 ## Licenses
 
 This project is released under [Apache 2.0 License](./LICENSE).
+
