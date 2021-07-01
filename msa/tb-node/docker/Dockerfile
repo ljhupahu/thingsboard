@@ -15,15 +15,15 @@
 #
 
 FROM thingsboard/openjdk11
-
+#复制安装文件和脚本到临时文件夹下
 COPY start-tb-node.sh ${pkg.name}.deb /tmp/
-
+#使所有用户都有执行的权限
 RUN chmod a+x /tmp/*.sh \
     && mv /tmp/start-tb-node.sh /usr/bin
-
+#安装deb包，然后删除安装文件
 RUN yes | dpkg -i /tmp/${pkg.name}.deb
 RUN rm /tmp/${pkg.name}.deb
-
+#停止服务
 RUN systemctl --no-reload disable --now ${pkg.name}.service > /dev/null 2>&1 || :
 
 RUN chown -R ${pkg.user}:${pkg.user} /tmp

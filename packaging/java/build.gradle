@@ -135,6 +135,7 @@ buildRpm {
 }
 
 // Same as the buildRpm task
+//生成Deb安装文件，供后边调用
 buildDeb {
 
     arch = "all"

@@ -1,11 +1,11 @@
 #!/bin/sh
-
+#执行结果错误则退出
 set -e
-
+#查询系统数据库组，如果没有的话则新增组 。同时查询过程不要显示到屏幕上
 if ! getent group ${pkg.user} >/dev/null; then
     addgroup --system ${pkg.user}
 fi
-
+#查询系统用户，如果没有的话则新建，
 if ! getent passwd ${pkg.user} >/dev/null; then
     adduser --quiet \
             --system \
