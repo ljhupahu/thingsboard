@@ -31,10 +31,24 @@
 
     <properties>
         <main.dir>${basedir}/..</main.dir>
-        <docker.repo>thingsboard</docker.repo>
+<!--        配置私有镜像仓库-->
+        <docker.repo>art.local:8081/thingsboard-local</docker.repo>
         <dockerfile.skip>true</dockerfile.skip>
     </properties>
 
+    <profiles>
+        <profile>
+            <id>build-docker</id>
+            <activation>
+                <property>
+                    <name>build-docker</name>
+                </property>
+            </activation>
+            <properties>
+                <dockerfile.skip>false</dockerfile.skip>
+            </properties>
+        </profile>
+    </profiles>
     <modules>
         <module>tb</module>
         <module>js-executor</module>
@@ -49,9 +63,12 @@
             <plugins>
                 <plugin>
                     <groupId>com.spotify</groupId>
-<!--                    该插件完成了在打jar包时生成docker镜像的工作-->
+<!--                      该插件完成了在打jar包时生成docker镜像的工作-->
                     <artifactId>dockerfile-maven-plugin</artifactId>
                     <version>1.4.13</version>
+                    <configuration>
+                        <useMavenSettingsForAuth>true</useMavenSettingsForAuth>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
