@@ -39,7 +39,6 @@
         <pkg.package.phase>package</pkg.package.phase>
         <pkg.name>tb-http-transport</pkg.name>
         <pkg.copyInstallScripts>false</pkg.copyInstallScripts>
-        <pkg.win.dist>${project.build.directory}/windows</pkg.win.dist>
         <pkg.implementationTitle>ThingsBoard HTTP Transport Service</pkg.implementationTitle>
         <pkg.mainClass>org.thingsboard.server.http.ThingsboardHttpTransportApplication</pkg.mainClass>
     </properties>
@@ -53,13 +52,7 @@
             <groupId>org.thingsboard.common</groupId>
             <artifactId>queue</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.sun.winsw</groupId>
-            <artifactId>winsw</artifactId>
-            <classifier>bin</classifier>
-            <type>exe</type>
-            <scope>provided</scope>
-        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>

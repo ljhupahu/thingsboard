@@ -87,7 +87,6 @@
         <spatial4j.version>0.7</spatial4j.version>
         <jts.version>1.15.0</jts.version>
         <bouncycastle.version>1.64</bouncycastle.version>
-        <winsw.version>2.0.1</winsw.version>
         <hsqldb.version>2.5.0</hsqldb.version>
         <dbunit.version>2.5.3</dbunit.version>
         <spring-test-dbunit.version>1.2.1</spring-test-dbunit.version>
@@ -238,35 +237,7 @@
                                         </filters>
                                     </configuration>
                                 </execution>
-                                <execution>
-                                    <id>copy-win-conf</id>
-                                    <phase>${pkg.process-resources.phase}</phase>
-                                    <goals>
-                                        <goal>copy-resources</goal>
-                                    </goals>
-                                    <configuration>
-                                        <outputDirectory>${pkg.win.dist}/conf</outputDirectory>
-                                        <resources>
-                                            <resource>
-                                                <directory>src/main/resources</directory>
-                                                <excludes>
-                                                    <exclude>logback.xml</exclude>
-                                                </excludes>
-                                                <filtering>false</filtering>
-                                            </resource>
-                                            <resource>
-                                                <directory>src/main/conf</directory>
-                                                <excludes>
-                                                    <exclude>${pkg.name}.conf</exclude>
-                                                </excludes>
-                                                <filtering>true</filtering>
-                                            </resource>
-                                        </resources>
-                                        <filters>
-                                            <filter>${main.dir}/packaging/${pkg.type}/filters/windows.properties</filter>
-                                        </filters>
-                                    </configuration>
-                                </execution>
+
                                 <execution>
                                     <id>copy-control</id>
                                     <phase>${pkg.process-resources.phase}</phase>
@@ -311,47 +282,8 @@
                                         </filters>
                                     </configuration>
                                 </execution>
-                                <execution>
-                                    <id>copy-windows-control</id>
-                                    <phase>${pkg.process-resources.phase}</phase>
-                                    <goals>
-                                        <goal>copy-resources</goal>
-                                    </goals>
-                                    <configuration>
-                                        <outputDirectory>${pkg.win.dist}</outputDirectory>
-                                        <resources>
-                                            <resource>
-                                                <directory>${main.dir}/packaging/${pkg.type}/scripts/windows</directory>
-                                                <filtering>true</filtering>
-                                            </resource>
-                                        </resources>
-                                        <filters>
-                                            <filter>${main.dir}/packaging/${pkg.type}/filters/windows.properties</filter>
-                                        </filters>
-                                    </configuration>
-                                </execution>
-                                <execution>
-                                    <id>copy-windows-install</id>
-                                    <phase>${pkg.process-resources.phase}</phase>
-                                    <goals>
-                                        <goal>copy-resources</goal>
-                                    </goals>
-                                    <configuration>
-                                        <outputDirectory>${pkg.win.dist}/install</outputDirectory>
-                                        <resources>
-                                            <resource>
-                                                <directory>${main.dir}/packaging/${pkg.type}/scripts/install</directory>
-                                                <includes>
-                                                    <include>logback.xml</include>
-                                                </includes>
-                                                <filtering>true</filtering>
-                                            </resource>
-                                        </resources>
-                                        <filters>
-                                            <filter>${main.dir}/packaging/${pkg.type}/filters/windows.properties</filter>
-                                        </filters>
-                                    </configuration>
-                                </execution>
+
+
                                 <execution>
 <!--                                将data文件复制到target的data目录中-->
                                     <id>copy-data</id>
@@ -396,32 +328,7 @@
                                 </execution>
                             </executions>
                         </plugin>
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-dependency-plugin</artifactId>
-                            <executions>
-                                <execution>
-<!--                               生成windows可执行文件-->
-                                    <id>copy-winsw-service</id>
-                                    <phase>${pkg.package.phase}</phase>
-                                    <goals>
-                                        <goal>copy</goal>
-                                    </goals>
-                                    <configuration>
-                                        <artifactItems>
-                                            <artifactItem>
-                                                <groupId>com.sun.winsw</groupId>
-                                                <artifactId>winsw</artifactId>
-                                                <classifier>bin</classifier>
-                                                <type>exe</type>
-                                                <destFileName>service.exe</destFileName>
-                                            </artifactItem>
-                                        </artifactItems>
-                                        <outputDirectory>${pkg.win.dist}</outputDirectory>
-                                    </configuration>
-                                </execution>
-                            </executions>
-                        </plugin>
+
                         <plugin>
                             <groupId>org.apache.maven.plugins</groupId>
                             <artifactId>maven-jar-plugin</artifactId>
@@ -500,25 +407,7 @@
                                 </execution>
                             </executions>
                         </plugin>
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-assembly-plugin</artifactId>
-                            <configuration>
-                                <finalName>${pkg.name}</finalName>
-                                <descriptors>
-                                    <descriptor>${main.dir}/packaging/${pkg.type}/assembly/windows.xml</descriptor>
-                                </descriptors>
-                            </configuration>
-                            <executions>
-                                <execution>
-                                    <id>assembly</id>
-                                    <phase>${pkg.package.phase}</phase>
-                                    <goals>
-                                        <goal>single</goal>
-                                    </goals>
-                                </execution>
-                            </executions>
-                        </plugin>
+
                         <plugin>
                             <groupId>org.apache.maven.plugins</groupId>
                             <artifactId>maven-install-plugin</artifactId>
@@ -755,13 +644,13 @@
                             <exclude>src/font/**</exclude>
                             <exclude>src/sh/**</exclude>
                             <exclude>packaging/*/scripts/control/**</exclude>
-                            <exclude>packaging/*/scripts/windows/**</exclude>
+
                             <exclude>packaging/*/scripts/init/**</exclude>
                             <exclude>**/*.log</exclude>
                             <exclude>**/*.current</exclude>
                             <exclude>.instance_id</exclude>
                             <exclude>src/main/scripts/control/**</exclude>
-                            <exclude>src/main/scripts/windows/**</exclude>
+
                             <exclude>src/main/resources/public/static/rulenode/**</exclude>
                             <exclude>**/*.proto.js</exclude>
                             <exclude>docker/haproxy/**</exclude>
@@ -1328,14 +1217,7 @@
                 <artifactId>jedis</artifactId>
                 <version>${jedis.version}</version>
             </dependency>
-            <dependency>
-                <groupId>com.sun.winsw</groupId>
-                <artifactId>winsw</artifactId>
-                <version>${winsw.version}</version>
-                <classifier>bin</classifier>
-                <type>exe</type>
-                <scope>provided</scope>
-            </dependency>
+
             <dependency>
                 <groupId>org.elasticsearch.client</groupId>
                 <artifactId>rest</artifactId>
@@ -1473,6 +1355,7 @@
                 <artifactId>knife4j-spring-boot-starter</artifactId>
                 <version>${knife4j-spring-boot-starter.version}</version>
             </dependency>
+
         </dependencies>
     </dependencyManagement>
 <!--将包发布到maven私服中-->

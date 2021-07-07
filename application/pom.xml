@@ -39,7 +39,6 @@
         <pkg.process-resources.phase>process-resources</pkg.process-resources.phase>
         <pkg.package.phase>package</pkg.package.phase>
         <pkg.name>thingsboard</pkg.name>
-        <pkg.win.dist>${project.build.directory}/windows</pkg.win.dist>
         <pkg.copyInstallScripts>true</pkg.copyInstallScripts>
         <pkg.implementationTitle>ThingsBoard</pkg.implementationTitle>
         <pkg.mainClass>org.thingsboard.server.ThingsboardServerApplication</pkg.mainClass>
@@ -225,13 +224,7 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.sun.winsw</groupId>
-            <artifactId>winsw</artifactId>
-            <classifier>bin</classifier>
-            <type>exe</type>
-            <scope>provided</scope>
-        </dependency>
+
         <dependency>
             <groupId>org.thingsboard</groupId>
             <artifactId>tools</artifactId>
