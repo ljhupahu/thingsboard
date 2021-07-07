@@ -87,6 +87,7 @@ public abstract class TbEntityGetAttrNode<T extends EntityId> implements TbNode 
         attributes.forEach(r -> {
             String attrName = config.getAttrMapping().get(r.getKey());
             msg.getMetaData().putValue(attrName, r.getValueAsString());
+            log.info("-------------metadata中新增属性  key:"+attrName+"   value:"+r.getValueAsString());
         });
         ctx.tellSuccess(msg);
     }

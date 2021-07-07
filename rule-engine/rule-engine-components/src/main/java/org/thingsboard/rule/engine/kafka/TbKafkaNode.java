@@ -121,6 +121,8 @@ public class TbKafkaNode implements TbNode {
     }
 
     protected void publish(TbContext ctx, TbMsg msg, String topic) {
+        log.info("json data={}",msg.getData());
+        log.info("meta data={}",msg.getMetaData().toString());
         try {
             if (!addMetadataKeyValuesAsKafkaHeaders) {
                 //TODO: external system executor

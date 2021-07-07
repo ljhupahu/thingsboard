@@ -17,6 +17,7 @@ package org.thingsboard.server.common.data;
 
 /**
  * @author Andrew Shvayka
+ * thingsboard中所有的东西都可以称之为实体，该类中定义了实体的种类
  */
 public enum EntityType {
     TENANT, CUSTOMER, USER, DASHBOARD, ASSET, DEVICE, ALARM, RULE_CHAIN, RULE_NODE, ENTITY_VIEW, WIDGETS_BUNDLE, WIDGET_TYPE, TENANT_PROFILE, DEVICE_PROFILE, API_USAGE_STATE;
