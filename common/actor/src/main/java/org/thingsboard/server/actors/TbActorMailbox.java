@@ -28,6 +28,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
+/**
+ * 邮箱，实现TbActorCtx接口，存储消息到队列并使用调度器处理队列中的消息
+ */
 @Slf4j
 @Data
 public final class TbActorMailbox implements TbActorCtx {

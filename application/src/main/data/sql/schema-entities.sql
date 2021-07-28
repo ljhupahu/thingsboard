@@ -20,6 +20,8 @@ CREATE TABLE IF NOT EXISTS tb_schema_settings
     CONSTRAINT tb_schema_settings_pkey PRIMARY KEY (schema_version)
 );
 
+COMMENT ON COLUMN "public"."tb_schema_settings"."schema_version" IS '数据模式版本';
+
 CREATE OR REPLACE PROCEDURE insert_tb_schema_settings()
     LANGUAGE plpgsql AS
 $$
@@ -297,6 +299,7 @@ CREATE TABLE IF NOT EXISTS tenant (
     zip varchar(255),
     CONSTRAINT fk_tenant_profile FOREIGN KEY (tenant_profile_id) REFERENCES tenant_profile(id)
 );
+COMMENT ON COLUMN "public"."tenant"."zip" IS '邮政编码';
 
 CREATE TABLE IF NOT EXISTS user_credentials (
     id uuid NOT NULL CONSTRAINT user_credentials_pkey PRIMARY KEY,
@@ -307,6 +310,9 @@ CREATE TABLE IF NOT EXISTS user_credentials (
     reset_token varchar(255) UNIQUE,
     user_id uuid UNIQUE
 );
+COMMENT ON COLUMN "public"."user_credentials"."activate_token" IS '激活令牌';
+
+COMMENT ON COLUMN "public"."user_credentials"."reset_token" IS '重置令牌';
 
 CREATE TABLE IF NOT EXISTS widget_type (
     id uuid NOT NULL CONSTRAINT widget_type_pkey PRIMARY KEY,

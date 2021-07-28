@@ -35,6 +35,9 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+/**
+ * Actor系统，用于Dispatcher的创建删除、Actor的创建查找和Actor之间消息传递等
+ */
 @Slf4j
 @Data
 public class DefaultTbActorSystem implements TbActorSystem {

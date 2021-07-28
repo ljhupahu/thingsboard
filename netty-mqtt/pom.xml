@@ -25,9 +25,9 @@
     <artifactId>netty-mqtt</artifactId>
     <version>3.2.2</version>
     <packaging>jar</packaging>
-
     <name>Netty MQTT Client</name>
     <url>https://thingsboard.io</url>
+    <description>该工程使用netty实现了mqtt客户端或服务端</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

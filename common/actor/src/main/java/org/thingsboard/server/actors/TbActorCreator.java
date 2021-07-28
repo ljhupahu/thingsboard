@@ -15,6 +15,9 @@
  */
 package org.thingsboard.server.actors;
 
+/**
+ * 所有Actor创建器直接或间接实现该接口
+ */
 public interface TbActorCreator {
 
     TbActorId createActorId();
