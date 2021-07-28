@@ -17,6 +17,9 @@ package org.thingsboard.server.actors;
 
 import lombok.Getter;
 
+/**
+ * 抽象Actor，实现TbActor接口
+ */
 public abstract class AbstractTbActor implements TbActor {
 
     @Getter

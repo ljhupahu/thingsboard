@@ -21,6 +21,9 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
+/**
+ * Actor上下文接口，继承TbActorRef接口
+ */
 public interface TbActorCtx extends TbActorRef {
 
     TbActorId getSelf();

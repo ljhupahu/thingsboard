@@ -22,6 +22,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.function.Predicate;
 
+/**
+ * Actor系统类实现该接口
+ */
 public interface TbActorSystem {
 
     ScheduledExecutorService getScheduler();

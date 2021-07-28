@@ -17,6 +17,9 @@ package org.thingsboard.server.actors;
 
 import org.thingsboard.server.common.msg.TbActorMsg;
 
+/**
+ * 所有Actor需直接或间接实现该接口
+ */
 public interface TbActor {
 
     boolean process(TbActorMsg msg);

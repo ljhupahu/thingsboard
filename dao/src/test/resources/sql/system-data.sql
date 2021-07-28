@@ -16,7 +16,7 @@
 
 /** SYSTEM **/
 
-/** System admin **/
+/** System admin 为最高级别的管理员，高于租户级别,所以租户表中不存在该数据，为预置信息**/
 INSERT INTO tb_user ( id, created_time, tenant_id, customer_id, email, search_text, authority )
 VALUES ( '5a797660-4612-11e7-a919-92ebcb67fe33', 1592576748000, '13814000-1dd2-11b2-8080-808080808080', '13814000-1dd2-11b2-8080-808080808080', 'sysadmin@thingsboard.org',
          'sysadmin@thingsboard.org', 'SYS_ADMIN' );

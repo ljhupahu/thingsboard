@@ -17,6 +17,9 @@ package org.thingsboard.server.actors;
 
 import org.thingsboard.server.common.msg.TbActorMsg;
 
+/**
+ * Actor句柄接口，使用TbActorCreator创建Actor后返回此句柄，通常指向Actor的邮箱
+ */
 public interface TbActorRef {
 
     TbActorId getActorId();

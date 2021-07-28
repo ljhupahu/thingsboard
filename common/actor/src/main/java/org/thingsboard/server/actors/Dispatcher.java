@@ -19,6 +19,9 @@ import lombok.Data;
 
 import java.util.concurrent.ExecutorService;
 
+/**
+ * 调度器，用于调度Actor的创建或消息分发
+ */
 @Data
 class Dispatcher {
 
