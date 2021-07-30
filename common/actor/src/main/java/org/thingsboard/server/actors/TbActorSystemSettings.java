@@ -17,10 +17,19 @@ package org.thingsboard.server.actors;
 
 import lombok.Data;
 
+/**
+ * anctor系统的核心配置参数
+ */
 @Data
 public class TbActorSystemSettings {
 
+    /**
+     * 一次处理的消息数量,控制着线程切换的频次
+     */
     private final int actorThroughput;
+    /**
+     * 核心线程数的设定
+     */
     private final int schedulerPoolSize;
     private final int maxActorInitAttempts;
 

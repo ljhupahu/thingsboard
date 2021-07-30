@@ -79,6 +79,7 @@ public class TbKafkaProducerTemplate<T extends TbQueueMsg> implements TbQueuePro
         ProducerRecord<String, byte[]> record;
         Iterable<Header> headers = msg.getHeaders().getData().entrySet().stream().map(e -> new RecordHeader(e.getKey(), e.getValue())).collect(Collectors.toList());
         record = new ProducerRecord<>(tpi.getFullTopicName(), null, key, data, headers);
+        log.info("\033[31;4m"+"队列中放入消息--topic:{}-----msg:{}--------------------"+"\033[0m",tpi.getFullTopicName(),msg);
         producer.send(record, (metadata, exception) -> {
             if (exception == null) {
                 if (callback != null) {

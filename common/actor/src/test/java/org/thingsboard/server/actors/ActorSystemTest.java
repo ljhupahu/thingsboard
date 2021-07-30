@@ -189,8 +189,10 @@ public class ActorSystemTest {
             testCtxes.add(testCtx);
         }
 
+        //执行几次
         for (int t = 0; t < times; t++) {
             long start = System.nanoTime();
+            //每条消息向actor发一次
             for (int i = 0; i < msgNumber; i++) {
                 int tmp = randomIntegers[i];
                 submitPool.execute(() -> actorRefs.forEach(actorId -> actorId.tell(new IntTbActorMsg(tmp))));
@@ -198,9 +200,13 @@ public class ActorSystemTest {
             log.info("Submitted all messages");
             testCtxes.forEach(ctx -> {
                 try {
+                    //阻塞一分钟，actor处理完则为success,超时则为false
                     boolean success = ctx.getLatch().await(1, TimeUnit.MINUTES);
                     if (!success) {
                         log.warn("Failed: {}, {}", ctx.getActual().get(), ctx.getInvocationCount().get());
+                    }
+                    if (success) {
+                        log.warn("Success: {}, {}", ctx.getActual().get(), ctx.getInvocationCount().get());
                     }
                     Assert.assertTrue(success);
                     Assert.assertEquals(expected, ctx.getActual().get());

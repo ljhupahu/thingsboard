@@ -75,7 +75,7 @@ import java.util.stream.Collectors;
 @RestController
 @TbCoreComponent
 @RequestMapping("/api")
-@Api(tags = "设备控制器")
+@Api(tags = "设备管理控制器")
 public class DeviceController extends BaseController {
 
     private static final String DEVICE_ID = "deviceId";

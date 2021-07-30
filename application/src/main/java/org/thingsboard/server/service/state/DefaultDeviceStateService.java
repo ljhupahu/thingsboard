@@ -87,6 +87,7 @@ import static org.thingsboard.server.common.data.DataConstants.SERVER_SCOPE;
 
 /**
  * Created by ashvayka on 01.05.18.
+ * 用来处理设备状态，例如当设备长时间未连接时，将其置为inactive
  */
 @Service
 @TbCoreComponent
@@ -116,6 +117,9 @@ public class DefaultDeviceStateService extends TbApplicationEventListener<Partit
     @Getter
     private long defaultInactivityTimeoutInSec;
 
+    /**
+     * 检查设备是否在线的周期时间
+     */
     @Value("${state.defaultStateCheckIntervalInSec}")
     @Getter
     private int defaultStateCheckIntervalInSec;

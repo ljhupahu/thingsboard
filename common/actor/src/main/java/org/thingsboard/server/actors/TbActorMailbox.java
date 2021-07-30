@@ -90,6 +90,12 @@ public final class TbActorMailbox implements TbActorCtx {
         }
     }
 
+    /**
+     * 这里会有多个线程往队列中加入消息，验证方法 normalPriorityMsgs.add(msg); 行打thread断点，会看到多个线程进入断点状态
+     * 这时候主线程会由于 ctx.getLatch().await(1, TimeUnit.MINUTES); 进入阻塞等待状态
+     * @param msg
+     * @param highPriority
+     */
     private void enqueue(TbActorMsg msg, boolean highPriority) {
         if (!destroyInProgress.get()) {
             if (highPriority) {

@@ -86,7 +86,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * Created by ashvayka on 05.10.18.
+ * Created by ashvayka on 05.10.18. 根据不同的消息进行处理分发
  */
 @Slf4j
 @Service

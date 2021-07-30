@@ -64,6 +64,12 @@ public interface TransportService {
 
     void process(SessionInfoProto sessionInfo, SessionEventMsg msg, TransportServiceCallback<Void> callback);
 
+    /**
+     * 执行消息传输动作
+     * @param sessionInfo
+     * @param msg
+     * @param callback
+     */
     void process(SessionInfoProto sessionInfo, PostTelemetryMsg msg, TransportServiceCallback<Void> callback);
 
     void process(SessionInfoProto sessionInfo, PostAttributeMsg msg, TransportServiceCallback<Void> callback);

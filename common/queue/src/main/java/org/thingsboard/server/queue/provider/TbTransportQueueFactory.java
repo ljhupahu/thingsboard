@@ -33,6 +33,10 @@ public interface TbTransportQueueFactory extends TbUsageStatsClientQueueFactory 
 
     TbQueueProducer<TbProtoQueueMsg<ToCoreMsg>> createTbCoreMsgProducer();
 
+    /**
+     * 负责处理回调消息
+     * @return
+     */
     TbQueueConsumer<TbProtoQueueMsg<ToTransportMsg>> createTransportNotificationsConsumer();
 
 }

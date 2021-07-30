@@ -42,17 +42,25 @@ public class TestRootActor extends AbstractTbActor {
         initialized = true;
     }
 
+    /**
+     * 由于是取队列中的数据进行消费，队列有顺序，所以不可能有多个线程同时对这里进行处理
+     * @param msg
+     * @return
+     */
     @Override
     public boolean process(TbActorMsg msg) {
+        log.info("线程:{} 处理消息--:{}",Thread.currentThread().getName(),((IntTbActorMsg) msg).getValue());
         if (initialized) {
             int value = ((IntTbActorMsg) msg).getValue();
             sum += value;
             count += 1;
+            log.info("\033[33;4m"+"count = {}"+"\033[0m",count);
             if (count == testCtx.getExpectedInvocationCount()) {
                 testCtx.getActual().set(sum);
                 testCtx.getInvocationCount().addAndGet(count);
                 sum = 0;
                 count = 0;
+                //只会执行一次，使主线程继续原有逻辑
                 testCtx.getLatch().countDown();
             }
         }

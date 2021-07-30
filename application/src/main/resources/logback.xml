@@ -34,20 +34,19 @@
         </encoder>
     </appender>
 
-    <logger name="org.thingsboard.server" level="DEBUG" />
+    <logger name="org.thingsboard.server" level="INFO" />
 
-    <logger name="org.thingsboard.server.service.queue" level="OFF" />
-    <logger name="org.thingsboard.server.service.transport" level="INFO" />
-    <logger name="org.thingsboard.server.queue.memory.InMemoryStorage" level="INFO" />
-    <logger name="org.thingsboard.server.service.ttl.AbstractCleanUpService" level="INFO" />
+    <logger name="org.thingsboard.server.service.queue" level="TRACE" />
+    <logger name="org.thingsboard.server.service.transport" level="TRACE" />
+    <logger name="org.thingsboard.server.queue.memory" level="TRACE" />
+    <logger name="org.thingsboard.server.service.ttl.AbstractCleanUpService" level="TRACE" />
 
-    <logger name="org.thingsboard.server.service.subscription" level="INFO"/>
-    <logger name="org.thingsboard.server.service.telemetry" level="INFO"/>
-    <logger name="com.microsoft.azure.servicebus.primitives.CoreMessageReceiver" level="OFF" />
+    <logger name="org.thingsboard.server.service.subscription" level="DEBUG"/>
+    <logger name="org.thingsboard.server.service.telemetry" level="DEBUG"/>
 
     <logger name="org.hibernate.engine.QueryParameters" level="DEBUG"/>
     <logger name="org.hibernate.engine.query.HQLQueryPlan" level="DEBUG"/>
-    <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE"/>
+    <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="DEBUG"/>
 
     <root level="INFO">
         <appender-ref ref="STDOUT"/>
