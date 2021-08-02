@@ -40,6 +40,11 @@ public class DummyDiscoveryService implements DiscoveryService {
         this.partitionService = partitionService;
     }
 
+    /**
+     * 因为没有使用Zookeeper做注册中心，DiscoveryService的实现由DummyDiscoveryService实现，
+     * 在收到Spring发送的ApplicationReadyEvent事件后，调用partitionService.recalculatePartitions方法:
+     * @param event
+     */
     @EventListener(ApplicationReadyEvent.class)
     @Order(value = 1)
     public void onApplicationEvent(ApplicationReadyEvent event) {

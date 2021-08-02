@@ -25,6 +25,11 @@ public interface ApiUsageStateService {
 
     ApiUsageState update(ApiUsageState apiUsageState);
 
+    /**
+     * 通过tenantId查找租户的API使用情况
+     * @param tenantId
+     * @return
+     */
     ApiUsageState findTenantApiUsageState(TenantId tenantId);
 
     void deleteApiUsageStateByTenantId(TenantId tenantId);

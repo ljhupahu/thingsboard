@@ -38,6 +38,13 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+/**
+ * 通过ServiceInfo类来加载thingsboard.yml中的RuleEngineQueueConfiguration信息。
+ * ruleEngineSettings包含topic是tb_rule_engine，queue队列有三个分别是:
+ * 1. name: Main topic: tb_rule_engine.main partition: 10
+ * 2. name: HighPriority topic: tb_rule_engine.hp partition: 10
+ * 3. name: SequentialByOriginator topic: tb_rule_engine.sq partition: 10
+ */
 @Component
 @Slf4j
 public class DefaultTbServiceInfoProvider implements TbServiceInfoProvider {
@@ -65,12 +72,15 @@ public class DefaultTbServiceInfoProvider implements TbServiceInfoProvider {
     public void init() {
         if (StringUtils.isEmpty(serviceId)) {
             try {
+                //获取本机的HostName作为serviceId
                 serviceId = InetAddress.getLocalHost().getHostName();
             } catch (UnknownHostException e) {
                 serviceId = org.apache.commons.lang3.RandomStringUtils.randomAlphabetic(10);
             }
         }
         log.info("Current Service ID: {}", serviceId);
+        //serviceType是配置文件下service.type的值，默认为monolith
+        //serviceTypes将会是一个List包含TB_CORE, TB_RULE_ENGINE, TB_TRANSPORT, JS_EXECUTOR ①
         if (serviceType.equalsIgnoreCase("monolith")) {
             serviceTypes = Collections.unmodifiableList(Arrays.asList(ServiceType.values()));
         } else {
@@ -80,15 +90,22 @@ public class DefaultTbServiceInfoProvider implements TbServiceInfoProvider {
                 .setServiceId(serviceId)
                 .addAllServiceTypes(serviceTypes.stream().map(ServiceType::name).collect(Collectors.toList()));
         UUID tenantId;
+        //tenantIdStr是配置文件中service.tenant_id的值，默认情况下为空，isolatedTenant也就为空了
         if (!StringUtils.isEmpty(tenantIdStr)) {
             tenantId = UUID.fromString(tenantIdStr);
             isolatedTenant = new TenantId(tenantId);
         } else {
             tenantId = TenantId.NULL_UUID;
         }
+        //返回此 uuid 的 128 位值中的最高有效 64 位和最低64位
         builder.setTenantIdMSB(tenantId.getMostSignificantBits());
         builder.setTenantIdLSB(tenantId.getLeastSignificantBits());
 
+        //ruleEngineSettings是一个TbQueueRuleEngineSettings的一个实例，读取queue.rule-engine下的值
+        //ruleEngineSettings包含topic是tb_rule_engine，queue队列有三个分别是:
+        // 1. name: Main topic: tb_rule_engine.main partition: 10
+        // 2. name: HighPriority topic: tb_rule_engine.hp partition: 10
+        // 3. name: SequentialByOriginator topic: tb_rule_engine.sq partition: 10
         if (serviceTypes.contains(ServiceType.TB_RULE_ENGINE) && ruleEngineSettings != null) {
             for (TbRuleEngineQueueConfiguration queue : ruleEngineSettings.getQueues()) {
                 TransportProtos.QueueInfo queueInfo = TransportProtos.QueueInfo.newBuilder()

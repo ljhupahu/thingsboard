@@ -90,6 +90,14 @@ public class DefaultTbActorSystem implements TbActorSystem {
         return createActor(dispatcherId, creator, parent);
     }
 
+    /**
+     * 创建生成TbActorMailbox， 1个actorId生成一个TbActorMailbox，
+     * 一个TbActorMailbox对应一个actor
+     * @param dispatcherId
+     * @param creator
+     * @param parent
+     * @return
+     */
     private TbActorRef createActor(String dispatcherId, TbActorCreator creator, TbActorId parent) {
         Dispatcher dispatcher = dispatchers.get(dispatcherId);
         if (dispatcher == null) {

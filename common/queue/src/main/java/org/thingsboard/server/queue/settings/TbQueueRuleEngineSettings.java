@@ -26,6 +26,10 @@ import org.springframework.context.annotation.Configuration;
 import javax.annotation.PostConstruct;
 import java.util.List;
 
+/**
+ * TbQueueRuleEngineSettings文件是对ruleEngine的设置， 读取thingsboard.xml以queue.rule-engine开头的配置。
+ * topic=tb_rule_engine, 对应三个不同的queue (name=Main, name=HighPriority,name=SequentialByOriginator)
+ */
 @Slf4j
 @Data
 @EnableAutoConfiguration

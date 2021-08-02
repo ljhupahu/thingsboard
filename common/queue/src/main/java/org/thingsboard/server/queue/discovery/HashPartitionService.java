@@ -49,6 +49,10 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ConcurrentNavigableMap;
 import java.util.stream.Collectors;
 
+/**
+ * ThingsBoard adopts consistent hashing to ensure scalability and availability.
+ * ThingsBoard 采用hash一致性算法来确认可用及可扩展性
+ */
 @Service
 @Slf4j
 public class HashPartitionService implements PartitionService {
@@ -89,9 +93,27 @@ public class HashPartitionService implements PartitionService {
 
     @PostConstruct
     public void init() {
+        //根据queue.partitions.hash_function_name的配置选择以后做partition的hash方法，默认值是murmur3_128
         this.hashFunction = forName(hashFunctionName);
+        //ConcurrentMap<ServiceQueue, Integer> partitionSizes
+        //ServiceQueue 类成员ServiceType和字符串类型的queue name,构造函数如果不提供queue name或者queue name是null的话，ServiceQueue对象的的queue name是"Main"
+        //corePartitions 是queue.core.partitions默认值10
         partitionSizes.put(new ServiceQueue(ServiceType.TB_CORE), corePartitions);
+        //coreTopic对应的配置文件键是queue.core.topic，默认值tb_core
         partitionTopics.put(new ServiceQueue(ServiceType.TB_CORE), coreTopic);
+
+        //根据DefaultTbServiceInfoProvider的分析可以得出partitionTopics，partitionSizes的具体内容
+        //默认： partitionTopics：
+//        ServiceQueue(type=TB_RULE_ENGINE, queue=HighPriority) -> tb_rule_engine.hp
+//        ServiceQueue(type=TB_CORE, queue=Main) -> tb_core
+//        ServiceQueue(type=TB_RULE_ENGINE, queue=SequentialByOriginator) -> tb_rule_engine.sq
+//        ServiceQueue(type=TB_RULE_ENGINE, queue=Main) -> tb_rule_engine.main
+//        partitionSizes：
+//        ServiceQueue(type=TB_RULE_ENGINE, queue=HighPriority) -> {Integer@10046} 10
+//        ServiceQueue(type=TB_CORE, queue=Main) -> {Integer@10046} 10
+//        ServiceQueue(type=TB_RULE_ENGINE, queue=SequentialByOriginator) -> {Integer@10046} 10
+//        ServiceQueue(type=TB_RULE_ENGINE, queue=Main) -> {Integer@10046} 10
+
         tbQueueRuleEngineSettings.getQueues().forEach(queueConfiguration -> {
             partitionTopics.put(new ServiceQueue(ServiceType.TB_RULE_ENGINE, queueConfiguration.getName()), queueConfiguration.getTopic());
             partitionSizes.put(new ServiceQueue(ServiceType.TB_RULE_ENGINE, queueConfiguration.getName()), queueConfiguration.getPartitions());
@@ -128,8 +150,10 @@ public class HashPartitionService implements PartitionService {
     @Override
     public synchronized void recalculatePartitions(ServiceInfo currentService, List<ServiceInfo> otherServices) {
         logServiceInfo(currentService);
+        //dummy Discovery将不包含otherService,Zookeeper注册中心的实现将会有otherService
         otherServices.forEach(this::logServiceInfo);
         Map<ServiceQueueKey, List<ServiceInfo>> queueServicesMap = new HashMap<>();
+        //展开ServiceInfo的serviceTypes和RuleEngineQueue，并添加到queueServicesMap
         addNode(queueServicesMap, currentService);
         for (ServiceInfo other : otherServices) {
             addNode(queueServicesMap, other);
@@ -139,6 +163,7 @@ public class HashPartitionService implements PartitionService {
         ConcurrentMap<ServiceQueueKey, List<Integer>> oldPartitions = myPartitions;
         TenantId myIsolatedOrSystemTenantId = getSystemOrIsolatedTenantId(currentService);
         myPartitions = new ConcurrentHashMap<>();
+        //创建了ServiceQueueKey和partitionIndex的list组合
         partitionSizes.forEach((serviceQueue, size) -> {
             ServiceQueueKey myServiceQueueKey = new ServiceQueueKey(serviceQueue, myIsolatedOrSystemTenantId);
             for (int i = 0; i < size; i++) {
@@ -157,6 +182,9 @@ public class HashPartitionService implements PartitionService {
             }
         });
 
+        //发送PartitionChangeEvent，创建的TopicPartitionInfo的topic是partitionTopics的topic,
+        // fullTopicName是topic+Index, DummyDiscovery每次tpiList包含了所有的partitionIndex,
+        // 此例0-9.例:tpiList其中的fullTopicName是tb_core.9，tb_rule_engine.main.3
         myPartitions.forEach((serviceQueueKey, partitions) -> {
             if (!partitions.equals(oldPartitions.get(serviceQueueKey))) {
                 log.info("[{}] NEW PARTITIONS: {}", serviceQueueKey, partitions);

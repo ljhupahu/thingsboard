@@ -83,6 +83,11 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+/**
+ * DefaultTbCoreConsumerService的父类是AbstractConsumerService，
+ * 而父类接收到ApplicationReadyEvent时，会调用子类的launchMainConsumers()应用设计模式模板方法模式，启动了消费者线；
+ * 其作用是：消费者线程按照固定的延时，无限循环去消息队列提取消息，由于此时并未subscribed，也即未订阅，将暂时不从消息队列里取消息；
+ */
 @Service
 @TbCoreComponent
 @Slf4j
@@ -150,6 +155,12 @@ public class DefaultTbCoreConsumerService extends AbstractConsumerService<ToCore
         launchUsageStatsConsumer();
     }
 
+    /**
+     * DiscoveryService发布了PartitionChangeEvent，DefaultTbCoreConsumerService实现了ApplicationListener<PartitionChangeEvent>接口，
+     * 在接收到PartitionChangeEvent时，会做出相应的反应，调用onApplicationEvent，
+     * 订阅了的fullTopicName是tb_core.0-9 每次从消息队列进行poll的时候，都会检查这些fullTopicName里面是否有消息准备就绪；
+     * @param event
+     */
     @Override
     protected void onTbApplicationEvent(PartitionChangeEvent event) {
         if (event.getServiceType().equals(getServiceType())) {

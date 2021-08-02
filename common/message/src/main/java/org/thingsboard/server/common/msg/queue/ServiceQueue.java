@@ -19,6 +19,10 @@ import lombok.ToString;
 
 import java.util.Objects;
 
+/**
+ * 通过ServiceType(TB_CORE, TB_RULE_ENGINE, TB_TRANSPORT, JS_EXECUTOR;)
+ * 构建不同的ServiceQueue
+ */
 @ToString
 public class ServiceQueue {
 

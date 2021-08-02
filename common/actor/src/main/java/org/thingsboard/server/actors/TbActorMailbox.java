@@ -60,6 +60,10 @@ public final class TbActorMailbox implements TbActorCtx {
         dispatcher.getExecutor().execute(() -> tryInit(1));
     }
 
+    /**
+     * 调用actor， 使其actor初始化内部状态
+     * @param attempt
+     */
     private void tryInit(int attempt) {
         try {
             log.debug("[{}] Trying to init actor, attempt: {}", selfId, attempt);
